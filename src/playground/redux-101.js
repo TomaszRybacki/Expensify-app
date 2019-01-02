@@ -1,17 +1,42 @@
 import { createStore } from 'redux';
 
+// Generator akcji - funkcja, która zwraca obiekt
+
+// destrukturyzacja obiektu przekazanego do funkcji i ustawienie domyślnej wartości równej 1
+// ustawiamy też domyślną wartość na pusty obiekt, przy wywołaniu tej funkcji
+
+const incrementCount = ({ incrementBy = 1 } = {}) => ({
+  type: 'INCREMENT',
+  incrementBy
+});
+
+const decrementCount = ({ decrementBy = 1 } = {}) => ({
+  type: 'DECREMENT',
+  decrementBy
+});
+
+const setCount = ({ count } = {}) => ({
+  type: 'SET',
+  count
+});
+
+const resetCount = () => ({
+  type: 'RESET'
+});
 
 const store = createStore((state = { count: 0 }, action) => {
   switch (action.type) {
     case 'INCREMENT':
-      const incrementBy = typeof action.incrementBy === 'number' ? action.incrementBy : 1;
       return {
-        count: state.count + incrementBy
+        count: state.count + action.incrementBy
       };
     case 'DECREMENT':
-      const decrementBy = typeof action.decrementBy === 'number' ? action.decrementBy : 1;
       return {
-        count: state.count - decrementBy
+        count: state.count - action.decrementBy
+      };
+    case 'SET':
+      return {
+        count: action.count
       };
     case 'RESET':
       return {
@@ -21,26 +46,22 @@ const store = createStore((state = { count: 0 }, action) => {
   }
 });
 
+// event zmiany stanu magazynu
+
 const unsubscribe = store.subscribe(() => {
   console.log(store.getState());
 });
 
-store.dispatch({
-  type: 'INCREMENT',
-  incrementBy: 5
-});
+store.dispatch(incrementCount());
+store.dispatch(incrementCount({ incrementBy: 5 }));
 
-store.dispatch({
-  type: 'DECREMENT',
-  decrementBy: 10
-});
+store.dispatch(decrementCount({ decrementBy: 10 }));
+store.dispatch(decrementCount());
 
-store.dispatch({
-  type: 'DECREMENT'
-});
+store.dispatch(resetCount());
+
+store.dispatch(setCount({ count: 100 }));
+
+// odczepienie eventu
 
 unsubscribe();
-
-store.dispatch({
-  type: 'RESET'
-});
