@@ -22,7 +22,6 @@ const store = configureStore();
 store.subscribe(() => {
   const state = store.getState();
   const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-  console.log(visibleExpenses);
 });
 
 const expenseOne = store.dispatch(addExpense({ description: 'water bill', amount: 100 }));
