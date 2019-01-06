@@ -8,7 +8,7 @@ const ExpenseList = (props) => (
   </div>
 );
 
-// wybieramy do jakich elementów przechowywanych w Redux-ie potrzebny jest dostęp
+// wybieramy do jakich elementów przechowywanych w Redux-ie, potrzebny jest dostęp
 
 const mapStateToProps = (state) => {
   return {
